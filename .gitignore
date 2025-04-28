@@ -25,3 +25,8 @@ ENV/
 # OS関連
 .DS_Store
 Thumbs.db
+
+# アプリケーション固有
+/data/
+ngrok.log
+current_url.txt

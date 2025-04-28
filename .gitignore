@@ -1,0 +1,27 @@
+# Python関連
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.env
+
+# ログファイル
+*.log
+
+# データベース
+*.sqlite
+*.db
+
+# エディタ関連
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS関連
+.DS_Store
+Thumbs.db

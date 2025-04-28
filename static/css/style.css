@@ -1,0 +1,352 @@
+/* Base styles and variables */
+:root {
+    --primary-color: #34495e;
+    --secondary-color: #3498db;
+    --accent-color: #2ecc71;
+    --danger-color: #e74c3c;
+    --light-color: #ecf0f1;
+    --dark-color: #2c3e50;
+    --border-radius: 6px;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f5f7fa;
+    color: var(--dark-color);
+    line-height: 1.6;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1, h2 {
+    font-weight: 300;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+h1 {
+    font-size: 2.2rem;
+}
+
+h2 {
+    font-size: 1.8rem;
+    border-bottom: 1px solid var(--light-color);
+    padding-bottom: 10px;
+}
+
+a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+a:hover {
+    color: var(--primary-color);
+}
+
+/* Button styles */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.btn i {
+    margin-right: 8px;
+}
+
+.btn-primary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-add {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.btn-clear {
+    background-color: var(--danger-color);
+    color: white;
+    font-size: 0.9rem;
+    padding: 6px 12px;
+}
+
+.btn-delete {
+    background-color: transparent;
+    color: var(--danger-color);
+    padding: 8px;
+}
+
+.btn:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+/* Login page styles */
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 90vh;
+}
+
+.login-card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.login-form .form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.login-form label {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary-color);
+}
+
+.login-form input {
+    width: 100%;
+    padding: 15px 15px 15px 45px;
+    border: 1px solid var(--light-color);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.login-form input:focus {
+    border-color: var(--secondary-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.login-form .btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+}
+
+.error-message {
+    color: var(--danger-color);
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: rgba(231, 76, 60, 0.1);
+    border-radius: var(--border-radius);
+}
+
+/* Main app styles */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.user-nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.welcome-msg {
+    font-size: 1.1rem;
+}
+
+.logout-btn {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--light-color);
+    padding: 8px 16px;
+    border-radius: var(--border-radius);
+    color: var(--dark-color);
+    transition: var(--transition);
+}
+
+.logout-btn:hover {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+/* Add item form */
+.add-item-section {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.add-form .form-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.add-form input, 
+.add-form select {
+    flex: 1;
+    min-width: 200px;
+    padding: 12px 15px;
+    border: 1px solid var(--light-color);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+}
+
+.add-form select {
+    background-color: white;
+    cursor: pointer;
+}
+
+.add-form input:focus,
+.add-form select:focus {
+    border-color: var(--secondary-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* Lists container */
+.lists-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.list-section {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+}
+
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.list-header h2 {
+    margin: 0;
+    color: white;
+    border: none;
+    padding: 0;
+    font-size: 1.4rem;
+}
+
+.items-list {
+    list-style: none;
+    padding: 0;
+}
+
+.list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--light-color);
+    transition: var(--transition);
+}
+
+.list-item:hover {
+    background-color: rgba(236, 240, 241, 0.5);
+}
+
+.item-text {
+    font-size: 1.1rem;
+}
+
+.empty-list {
+    padding: 30px 20px;
+    text-align: center;
+    color: #95a5a6;
+    font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .app-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .user-nav {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .add-form .form-group {
+        flex-direction: column;
+    }
+    
+    .add-form input, 
+    .add-form select,
+    .add-form button {
+        width: 100%;
+    }
+    
+    .list-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .list-header .btn-clear {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        font-size: 16px;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    h2 {
+        font-size: 1.4rem;
+    }
+    
+    .container {
+        padding: 10px;
+    }
+    
+    .login-card {
+        padding: 20px;
+    }
+}

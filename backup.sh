@@ -1,10 +1,10 @@
 #!/bin/bash
 # バックアップ先ディレクトリ
 BACKUP_DIR="/home/tomo/backup"
-# 現在の日時を取得（例: 20250316_2058）
+# 現在の日時を取得（例: 20250422_1200）
 TIMESTAMP=$(date +"%Y%m%d_%H%M")
 # ソースディレクトリ
-SOURCE_DIR="/home/tomo/shopping_list"
+SOURCE_DIR="/home/tomo/shopping-recipe-app"
 # 一時ディレクトリ（crontab用）
 TEMP_DIR="/tmp/backup_temp"
 
@@ -21,7 +21,7 @@ fi
 # バックアップディレクトリが存在しない場合は作成
 mkdir -p "$BACKUP_DIR"
 
-# shopping_listディレクトリの全ファイルとcrontabをバックアップ
+# shopping-recipe-appディレクトリの全ファイルとcrontabをバックアップ
 tar -czf "$BACKUP_DIR/backup_$TIMESTAMP.tar.gz" -C "$SOURCE_DIR" . -C "$TEMP_DIR" "crontab_backup_$TIMESTAMP.txt"
 
 # 一時ファイルを削除

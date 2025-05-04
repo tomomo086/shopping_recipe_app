@@ -1,0 +1,107 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="recipe-detail-container">
+    {% if error %}
+    <div class="error-message">{{ error }}</div>
+    <a href="{{ url_for('recipe.index') }}" class="btn btn-primary">
+        <i class="fas fa-arrow-left"></i> レシピ一覧に戻る
+    </a>
+    {% elif recipe %}
+    <div class="recipe-header">
+        <h1>{{ recipe.title }}</h1>
+        
+        <div class="recipe-actions">
+            <form method="post" action="{{ url_for('recipe.add_to_shopping_list', recipe_id=recipe.id) }}" class="shopping-form">
+                <div class="form-checkbox">
+                    <input type="checkbox" id="add_seasonings" name="add_seasonings" value="true">
+                    <label for="add_seasonings">調味料も追加する</label>
+                </div>
+                <button type="submit" class="btn btn-add">
+                    <i class="fas fa-cart-plus"></i> 買い物リストに追加
+                </button>
+            </form>
+            
+            <form method="post" action="{{ url_for('recipe.delete_recipe', recipe_id=recipe.id) }}" class="delete-form" onsubmit="return confirm('このレシピを削除してもよろしいですか？');">
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> 削除
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="recipe-content">
+        <div class="recipe-summary">
+            <p>{{ recipe.summary }}</p>
+            {% if recipe.url %}
+            <p class="recipe-url">
+                <a href="{{ recipe.url }}" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> 元ページを見る
+                </a>
+            </p>
+            {% endif %}
+        </div>
+        
+        <div class="recipe-tags">
+            {% for tag in recipe.tags %}
+            <span class="recipe-tag">{{ tag }}</span>
+            {% endfor %}
+        </div>
+        
+        <div class="recipe-ingredients">
+            <h2>材料</h2>
+            
+            <div class="ingredient-section">
+                <h3>主材料</h3>
+                <ul>
+                    {% for ingredient in recipe.main_ingredients %}
+                    <li>
+                        <span class="ingredient-name">{{ ingredient.name }}</span>
+                        {% if ingredient.amount %}
+                        <span class="ingredient-amount">{{ ingredient.amount }}</span>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            <div class="ingredient-section">
+                <h3>調味料</h3>
+                <ul>
+                    {% for seasoning in recipe.seasonings %}
+                    <li>
+                        <span class="ingredient-name">{{ seasoning.name }}</span>
+                        {% if seasoning.amount %}
+                        <span class="ingredient-amount">{{ seasoning.amount }}</span>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        
+        <div class="recipe-steps">
+            <h2>手順</h2>
+            <ol>
+                {% for step in recipe.steps %}
+                <li>{{ step }}</li>
+                {% endfor %}
+            </ol>
+        </div>
+        
+        {% if recipe.notes %}
+        <div class="recipe-notes">
+            <h2>メモ</h2>
+            <p>{{ recipe.notes }}</p>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="recipe-footer">
+        <a href="{{ url_for('recipe.index') }}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> レシピ一覧に戻る
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -9,25 +9,70 @@ class User(UserMixin):
 
 # 共通のデータ操作関数
 def load_shopping_list():
-    with open(Config.SHOPPING_LIST_FILE, "r") as f:
-        return json.load(f)
+    try:
+        with open(Config.SHOPPING_LIST_FILE, "r") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print(f"買い物リストファイルが見つかりません: {Config.SHOPPING_LIST_FILE}")
+        return {"食品": [], "日用品": []}
+    except json.JSONDecodeError:
+        print(f"買い物リストファイルの形式が不正です: {Config.SHOPPING_LIST_FILE}")
+        return {"食品": [], "日用品": []}
+    except Exception as e:
+        print(f"買い物リストファイルの読み込み中にエラーが発生しました: {e}")
+        return {"食品": [], "日用品": []}
 
 def save_shopping_list(data):
-    with open(Config.SHOPPING_LIST_FILE, "w") as f:
-        json.dump(data, f)
+    try:
+        with open(Config.SHOPPING_LIST_FILE, "w") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        return True
+    except Exception as e:
+        print(f"買い物リストファイルの保存中にエラーが発生しました: {e}")
+        return False
 
 def load_recipes():
-    with open(Config.RECIPE_FILE, "r") as f:
-        return json.load(f)
+    try:
+        with open(Config.RECIPE_FILE, "r") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print(f"レシピファイルが見つかりません: {Config.RECIPE_FILE}")
+        return {"recipes": []}
+    except json.JSONDecodeError:
+        print(f"レシピファイルの形式が不正です: {Config.RECIPE_FILE}")
+        return {"recipes": []}
+    except Exception as e:
+        print(f"レシピファイルの読み込み中にエラーが発生しました: {e}")
+        return {"recipes": []}
 
 def save_recipes(data):
-    with open(Config.RECIPE_FILE, "w") as f:
-        json.dump(data, f)
+    try:
+        with open(Config.RECIPE_FILE, "w") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        return True
+    except Exception as e:
+        print(f"レシピファイルの保存中にエラーが発生しました: {e}")
+        return False
 
 def load_menu():
-    with open(Config.MENU_FILE, "r") as f:
-        return json.load(f)
+    try:
+        with open(Config.MENU_FILE, "r") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        print(f"メニューファイルが見つかりません: {Config.MENU_FILE}")
+        return {"weeks": []}
+    except json.JSONDecodeError:
+        print(f"メニューファイルの形式が不正です: {Config.MENU_FILE}")
+        return {"weeks": []}
+    except Exception as e:
+        print(f"メニューファイルの読み込み中にエラーが発生しました: {e}")
+        return {"weeks": []}
 
 def save_menu(data):
-    with open(Config.MENU_FILE, "w") as f:
-        json.dump(data, f)
+    try:
+        with open(Config.MENU_FILE, "w") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        return True
+    except Exception as e:
+        print(f"メニューファイルの保存中にエラーが発生しました: {e}")
+        return False

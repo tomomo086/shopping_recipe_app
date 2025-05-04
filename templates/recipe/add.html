@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="recipe-add-container">
+    <h1>新しいレシピを追加</h1>
+    
+    <form method="post" class="recipe-form">
+        <div class="form-section">
+            <div class="form-group">
+                <label for="title">レシピ名</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="url">レシピURL（オプション）</label>
+                <input type="url" id="url" name="url">
+            </div>
+            
+            <div class="form-group">
+                <label for="summary">説明</label>
+                <textarea id="summary" name="summary" rows="3"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="tags">タグ（カンマ区切り）</label>
+                <input type="text" id="tags" name="tags" placeholder="和食, 魚, 簡単 など">
+            </div>
+        </div>
+        
+        <div class="form-section">
+            <h2>主材料</h2>
+            <div id="main-ingredients-container">
+                <div class="ingredient-row">
+                    <input type="text" name="main_name[]" placeholder="材料名" required>
+                    <input type="text" name="main_amount[]" placeholder="分量">
+                    <button type="button" class="btn-remove" onclick="this.parentElement.remove()">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <button type="button" id="add-main-ingredient" class="btn btn-secondary">
+                <i class="fas fa-plus"></i> 材料を追加
+            </button>
+        </div>
+        
+        <div class="form-section">
+            <h2>調味料</h2>
+            <div id="seasonings-container">
+                <div class="ingredient-row">
+                    <input type="text" name="seasoning_name[]" placeholder="調味料名" required>
+                    <input type="text" name="seasoning_amount[]" placeholder="分量">
+                    <button type="button" class="btn-remove" onclick="this.parentElement.remove()">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <button type="button" id="add-seasoning" class="btn btn-secondary">
+                <i class="fas fa-plus"></i> 調味料を追加
+            </button>
+        </div>
+        
+        <div class="form-section">
+            <h2>手順</h2>
+            <div id="steps-container">
+                <div class="step-row">
+                    <div class="step-number">1</div>
+                    <textarea name="step[]" placeholder="手順の詳細" required></textarea>
+                    <button type="button" class="btn-remove" onclick="removeStep(this)">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <button type="button" id="add-step" class="btn btn-secondary">
+                <i class="fas fa-plus"></i> 手順を追加
+            </button>
+        </div>
+        
+        <div class="form-section">
+            <div class="form-group">
+                <label for="notes">メモ（オプション）</label>
+                <textarea id="notes" name="notes" rows="3"></textarea>
+            </div>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> 保存
+            </button>
+            <a href="{{ url_for('recipe.index') }}" class="btn btn-secondary">
+                キャンセル
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

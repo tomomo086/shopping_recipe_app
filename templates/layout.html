@@ -3,11 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>買い物リスト</title>
+    <title>買い物＆レシピアプリ</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    {% if current_user.is_authenticated %}
+    <nav class="app-nav">
+        <div class="container">
+            <div class="nav-content">
+                <ul class="nav-links">
+                    <li><a href="{{ url_for('shopping.index') }}"><i class="fas fa-shopping-basket"></i> 買い物リスト</a></li>
+                    <li><a href="{{ url_for('recipe.index') }}"><i class="fas fa-utensils"></i> レシピ検索</a></li>
+                    <li><a href="{{ url_for('recipe.add') }}"><i class="fas fa-plus"></i> レシピ追加</a></li>
+                    <li><a href="{{ url_for('recipe.weekly_menu') }}"><i class="fas fa-calendar-week"></i> 週間メニュー</a></li>
+                </ul>
+                <div class="user-controls">
+                    <span class="welcome-msg">ようこそ、{{ current_user.id }}さん</span>
+                    <a href="{{ url_for('shopping.logout') }}" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> ログアウト
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    {% endif %}
     <div class="container">
         {% block content %}{% endblock %}
     </div>

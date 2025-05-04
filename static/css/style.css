@@ -1,4 +1,4 @@
-/* Base styles and variables */
+/* 基本スタイル */
 :root {
     --primary-color: #34495e;
     --secondary-color: #3498db;
@@ -31,7 +31,7 @@ body {
     padding: 20px;
 }
 
-h1, h2 {
+h1, h2, h3 {
     font-weight: 300;
     margin-bottom: 20px;
     color: var(--primary-color);
@@ -47,6 +47,10 @@ h2 {
     padding-bottom: 10px;
 }
 
+h3 {
+    font-size: 1.5rem;
+}
+
 a {
     color: var(--secondary-color);
     text-decoration: none;
@@ -57,23 +61,76 @@ a:hover {
     color: var(--primary-color);
 }
 
-/* Button styles */
-.btn {
-    display: inline-flex;
+/* ナビゲーション */
+.app-nav {
+    background-color: var(--primary-color);
+    box-shadow: var(--box-shadow);
+    margin-bottom: 20px;
+}
+
+.nav-content {
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    padding: 8px 16px;
+    padding: 10px 0;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.nav-links a {
+    color: white;
+    font-weight: 500;
+    padding: 10px;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+}
+
+.nav-links a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.user-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.welcome-msg {
+    color: white;
+}
+
+.logout-btn {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
+}
+
+.logout-btn:hover {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+/* ボタン */
+.btn {
+    display: inline-block;
+    padding: 8px 15px;
     background-color: var(--light-color);
     color: var(--dark-color);
     border: none;
     border-radius: var(--border-radius);
     cursor: pointer;
     font-size: 1rem;
+    text-align: center;
     transition: var(--transition);
 }
 
 .btn i {
-    margin-right: 8px;
+    margin-right: 5px;
 }
 
 .btn-primary {
@@ -81,8 +138,18 @@ a:hover {
     color: white;
 }
 
+.btn-secondary {
+    background-color: var(--light-color);
+    color: var(--dark-color);
+}
+
 .btn-add {
     background-color: var(--accent-color);
+    color: white;
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
     color: white;
 }
 
@@ -90,13 +157,26 @@ a:hover {
     background-color: var(--danger-color);
     color: white;
     font-size: 0.9rem;
-    padding: 6px 12px;
+    padding: 6px 10px;
 }
 
 .btn-delete {
     background-color: transparent;
     color: var(--danger-color);
-    padding: 8px;
+    padding: 5px;
+}
+
+.btn-remove {
+    background-color: var(--light-color);
+    color: var(--danger-color);
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn:hover {
@@ -104,12 +184,69 @@ a:hover {
     transform: translateY(-2px);
 }
 
-/* Login page styles */
+/* フォーム */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="url"],
+input[type="date"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    background-color: white;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.form-checkbox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.form-checkbox input {
+    margin-right: 5px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.form-section {
+    margin-bottom: 30px;
+    background-color: white;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+/* ログイン */
 .login-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 90vh;
+    min-height: 80vh;
 }
 
 .login-card {
@@ -119,127 +256,38 @@ a:hover {
     padding: 40px;
     width: 100%;
     max-width: 400px;
-    text-align: center;
-}
-
-.login-form .form-group {
-    margin-bottom: 20px;
-    position: relative;
-}
-
-.login-form label {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--primary-color);
-}
-
-.login-form input {
-    width: 100%;
-    padding: 15px 15px 15px 45px;
-    border: 1px solid var(--light-color);
-    border-radius: var(--border-radius);
-    font-size: 1rem;
-    transition: var(--transition);
-}
-
-.login-form input:focus {
-    border-color: var(--secondary-color);
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-}
-
-.login-form .btn {
-    width: 100%;
-    padding: 12px;
-    margin-top: 10px;
 }
 
 .error-message {
-    color: var(--danger-color);
-    margin-bottom: 20px;
-    padding: 10px;
     background-color: rgba(231, 76, 60, 0.1);
+    color: var(--danger-color);
+    padding: 10px;
     border-radius: var(--border-radius);
+    margin-bottom: 20px;
 }
 
-/* Main app styles */
-.app-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+/* 買い物リスト */
+.shopping-list-container {
     margin-bottom: 30px;
-    flex-wrap: wrap;
 }
 
-.user-nav {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.welcome-msg {
-    font-size: 1.1rem;
-}
-
-.logout-btn {
-    display: inline-flex;
-    align-items: center;
-    background-color: var(--light-color);
-    padding: 8px 16px;
-    border-radius: var(--border-radius);
-    color: var(--dark-color);
-    transition: var(--transition);
-}
-
-.logout-btn:hover {
-    background-color: var(--danger-color);
-    color: white;
-}
-
-/* Add item form */
 .add-item-section {
     background-color: white;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     padding: 20px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 .add-form .form-group {
     display: flex;
     gap: 10px;
-    flex-wrap: wrap;
 }
 
-.add-form input, 
-.add-form select {
-    flex: 1;
-    min-width: 200px;
-    padding: 12px 15px;
-    border: 1px solid var(--light-color);
-    border-radius: var(--border-radius);
-    font-size: 1rem;
-}
-
-.add-form select {
-    background-color: white;
-    cursor: pointer;
-}
-
-.add-form input:focus,
-.add-form select:focus {
-    border-color: var(--secondary-color);
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-}
-
-/* Lists container */
 .lists-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
+    gap: 20px;
 }
 
 .list-section {
@@ -253,100 +301,320 @@ a:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px;
     background-color: var(--primary-color);
     color: white;
+    padding: 15px;
 }
 
 .list-header h2 {
     margin: 0;
-    color: white;
     border: none;
-    padding: 0;
+    color: white;
     font-size: 1.4rem;
 }
 
 .items-list {
     list-style: none;
-    padding: 0;
 }
 
 .list-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px;
+    padding: 12px 15px;
     border-bottom: 1px solid var(--light-color);
-    transition: var(--transition);
-}
-
-.list-item:hover {
-    background-color: rgba(236, 240, 241, 0.5);
-}
-
-.item-text {
-    font-size: 1.1rem;
 }
 
 .empty-list {
-    padding: 30px 20px;
+    padding: 20px;
     text-align: center;
-    color: #95a5a6;
+    color: #999;
     font-style: italic;
 }
 
-/* Responsive adjustments */
+/* レシピ */
+.recipe-search-container,
+.recipe-add-container,
+.recipe-detail-container,
+.menu-planner-container {
+    margin-bottom: 30px;
+}
+
+.search-section {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.search-form .form-group {
+    display: flex;
+    gap: 10px;
+}
+
+.recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.recipe-card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.recipe-card-content {
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.recipe-title {
+    color: var(--primary-color);
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.recipe-summary {
+    margin-bottom: 15px;
+    flex-grow: 1;
+}
+
+.recipe-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.recipe-tag {
+    background-color: var(--light-color);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+.recipe-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* レシピ詳細 */
+.recipe-header {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.recipe-content {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.recipe-ingredients {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.ingredient-section {
+    margin-bottom: 20px;
+}
+
+.ingredient-section h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.ingredient-section ul {
+    list-style: none;
+}
+
+.ingredient-section li {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--light-color);
+}
+
+.recipe-steps {
+    margin-bottom: 30px;
+}
+
+.recipe-steps ol {
+    padding-left: 25px;
+}
+
+.recipe-steps li {
+    margin-bottom: 10px;
+}
+
+.recipe-notes {
+    background-color: rgba(46, 204, 113, 0.1);
+    padding: 15px;
+    border-radius: var(--border-radius);
+}
+
+.recipe-footer {
+    margin-top: 20px;
+}
+
+/* レシピ追加 */
+.ingredient-row,
+.step-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.step-number {
+    background-color: var(--primary-color);
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* メニュープランナー */
+.new-menu-section {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.day-section {
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--light-color);
+    padding-bottom: 20px;
+}
+
+.day-section h3 {
+    margin-bottom: 10px;
+}
+
+.meals-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.meal-group {
+    margin-bottom: 10px;
+}
+
+.week-card {
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.week-header {
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.week-header h3 {
+    margin: 0;
+    color: white;
+}
+
+.week-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.week-table th,
+.week-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--light-color);
+}
+
+.week-table th {
+    background-color: var(--light-color);
+    font-weight: 500;
+}
+
+.no-recipes,
+.no-menus,
+.no-results {
+    background-color: white;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    text-align: center;
+    margin: 20px 0;
+}
+
+/* レスポンシブデザイン */
 @media (max-width: 768px) {
-    .app-header {
+    .nav-content {
         flex-direction: column;
-        align-items: flex-start;
         gap: 15px;
     }
     
-    .user-nav {
+    .nav-links {
         width: 100%;
-        justify-content: space-between;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .user-controls {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .recipe-header {
+        flex-direction: column;
+    }
+    
+    .recipe-actions {
+        width: 100%;
+        flex-direction: column;
+    }
+    
+    .recipe-actions form,
+    .recipe-actions button,
+    .recipe-actions a {
+        width: 100%;
     }
     
     .add-form .form-group {
         flex-direction: column;
     }
     
-    .add-form input, 
-    .add-form select,
-    .add-form button {
-        width: 100%;
-    }
-    
-    .list-header {
+    .week-header {
         flex-direction: column;
-        align-items: flex-start;
         gap: 10px;
     }
     
-    .list-header .btn-clear {
-        width: 100%;
-    }
-}
-
-@media (max-width: 480px) {
-    body {
-        font-size: 16px;
-    }
-    
-    h1 {
-        font-size: 1.8rem;
-    }
-    
-    h2 {
-        font-size: 1.4rem;
-    }
-    
-    .container {
-        padding: 10px;
-    }
-    
-    .login-card {
-        padding: 20px;
+    .week-table {
+        font-size: 0.9rem;
     }
 }

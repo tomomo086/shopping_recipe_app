@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 # テンプレートでenumerate関数を使えるようにする
 @shopping_bp.app_template_global()
 def enumerate(iterable, start=0):
-    return [(i, item) for i, item in __builtins__.enumerate(iterable, start)]
+    return [(i, item) for i, item in enumerate(iterable, start)]
 
 # ログインページ
 @shopping_bp.route('/login', methods=['GET', 'POST'])

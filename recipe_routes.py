@@ -1,9 +1,11 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
 from flask_login import login_required, current_user
 from models import load_recipes, save_recipes, load_menu, save_menu, load_shopping_list, save_shopping_list
+import logging
 
 # Blueprintの作成
 recipe_bp = Blueprint('recipe', __name__, template_folder='templates/recipe')
+logger = logging.getLogger(__name__)
 
 # レシピ検索ページ
 @recipe_bp.route('/', methods=['GET'])
@@ -38,14 +40,15 @@ def index():
                     if title_match or ingredient_match or tag_match:
                         filtered_recipes.append(recipe)
                 except Exception as e:
-                    print(f"レシピID {recipe.get('id', 'unknown')} の検索中にエラーが発生しました: {e}")
+                    logger.error(f"レシピID {recipe.get('id', 'unknown')} の検索中にエラーが発生しました: {e}")
                     continue
             
             return render_template('index.html', recipes=filtered_recipes, query=query, error=error)
     
     except Exception as e:
-        print(f"レシピ検索中にエラーが発生しました: {e}")
+        logger.error(f"レシピ検索中にエラーが発生しました: {e}")
         error = "レシピの検索中にエラーが発生しました"
+        flash(error, "error")
         return render_template('index.html', recipes=[], query=query, error=error)
     
     return render_template('index.html', recipes=recipes.get('recipes', []), query='', error=error)
@@ -61,11 +64,13 @@ def detail(recipe_id):
         
         if not recipe:
             error = "レシピが見つかりませんでした"
+            flash(error, "error")
             return redirect(url_for('recipe.index'))
     
     except Exception as e:
-        print(f"レシピ詳細の取得中にエラーが発生しました: {e}")
+        logger.error(f"レシピ詳細の取得中にエラーが発生しました: {e}")
         error = "レシピの取得中にエラーが発生しました"
+        flash(error, "error")
         return redirect(url_for('recipe.index'))
     
     return render_template('detail.html', recipe=recipe, error=error)
@@ -82,6 +87,7 @@ def add():
             
             if not title:
                 error = "レシピ名は必須です"
+                flash(error, "error")
                 return render_template('add.html', error=error)
             
             url = request.form.get('url', '')
@@ -145,14 +151,17 @@ def add():
             recipes['recipes'].append(new_recipe)
             
             if save_recipes(recipes):
-                print(f"レシピを追加しました: {title} (ID: {new_id})")
+                logger.info(f"レシピを追加しました: {title} (ID: {new_id})")
+                flash(f"レシピ「{title}」を追加しました", "success")
                 return redirect(url_for('recipe.index'))
             else:
                 error = "レシピの保存に失敗しました"
+                flash(error, "error")
         
         except Exception as e:
-            print(f"レシピ追加中にエラーが発生しました: {e}")
+            logger.error(f"レシピ追加中にエラーが発生しました: {e}")
             error = "レシピの追加中にエラーが発生しました"
+            flash(error, "error")
     
     return render_template('add.html', error=error)
 
@@ -175,16 +184,20 @@ def delete_recipe(recipe_id):
             deleted_recipe = recipes['recipes'].pop(recipe_index)
             
             if save_recipes(recipes):
-                print(f"レシピを削除しました: {deleted_recipe.get('title')} (ID: {recipe_id})")
+                logger.info(f"レシピを削除しました: {deleted_recipe.get('title')} (ID: {recipe_id})")
+                flash(f"レシピ「{deleted_recipe.get('title')}」を削除しました", "success")
                 return redirect(url_for('recipe.index'))
             else:
                 error = "レシピの削除に失敗しました"
+                flash(error, "error")
         else:
             error = "レシピが見つかりませんでした"
+            flash(error, "error")
     
     except Exception as e:
-        print(f"レシピ削除中にエラーが発生しました: {e}")
+        logger.error(f"レシピ削除中にエラーが発生しました: {e}")
         error = "レシピの削除中にエラーが発生しました"
+        flash(error, "error")
     
     return render_template('detail.html', recipe=None, error=error)
 
@@ -200,14 +213,17 @@ def add_to_shopping_list(recipe_id):
         
         if not recipe:
             error = "レシピが見つかりませんでした"
+            flash(error, "error")
             return redirect(url_for('recipe.index'))
         
         shopping_list = load_shopping_list()
+        items_added = 0
         
         # 主材料を追加
         for ingredient in recipe.get('main_ingredients', []):
             if ingredient.get('name') and ingredient.get('name') not in shopping_list['食品']:
                 shopping_list['食品'].append(ingredient['name'])
+                items_added += 1
         
         # 調味料を追加（ユーザーの選択により追加するかどうか決定可能）
         add_seasonings = request.form.get('add_seasonings') == 'true'
@@ -216,15 +232,19 @@ def add_to_shopping_list(recipe_id):
             for seasoning in recipe.get('seasonings', []):
                 if seasoning.get('name') and seasoning.get('name') not in shopping_list['食品']:
                     shopping_list['食品'].append(seasoning['name'])
+                    items_added += 1
         
         if save_shopping_list(shopping_list):
-            print(f"レシピの材料を買い物リストに追加しました: {recipe.get('title')} (ID: {recipe_id})")
+            logger.info(f"レシピの材料を買い物リストに追加しました: {recipe.get('title')} (ID: {recipe_id}) - {items_added}個のアイテム")
+            flash(f"「{recipe.get('title')}」の材料を買い物リストに追加しました", "success")
         else:
             error = "買い物リストの保存に失敗しました"
+            flash(error, "error")
     
     except Exception as e:
-        print(f"買い物リストへの追加中にエラーが発生しました: {e}")
+        logger.error(f"買い物リストへの追加中にエラーが発生しました: {e}")
         error = "買い物リストへの追加中にエラーが発生しました"
+        flash(error, "error")
     
     return redirect(url_for('recipe.detail', recipe_id=recipe_id))
 
@@ -243,6 +263,7 @@ def weekly_menu():
             
             if not start_date:
                 error = "開始日を入力してください"
+                flash(error, "error")
                 return render_template('menu_planner.html', recipes=recipes.get('recipes', []), weeks=menu.get('weeks', []), error=error)
             
             days = []
@@ -271,14 +292,17 @@ def weekly_menu():
             menu['weeks'].append(new_week)
             
             if save_menu(menu):
-                print(f"新しい週間メニューを作成しました: {start_date}から (ID: {new_id})")
+                logger.info(f"新しい週間メニューを作成しました: {start_date}から (ID: {new_id})")
+                flash(f"{start_date}からの週間メニューを作成しました", "success")
                 return redirect(url_for('recipe.weekly_menu'))
             else:
                 error = "週間メニューの保存に失敗しました"
+                flash(error, "error")
     
     except Exception as e:
-        print(f"週間メニュー処理中にエラーが発生しました: {e}")
+        logger.error(f"週間メニュー処理中にエラーが発生しました: {e}")
         error = "週間メニューの処理中にエラーが発生しました"
+        flash(error, "error")
         recipes = load_recipes()
         menu = load_menu()
     
@@ -298,6 +322,7 @@ def generate_shopping_list(week_id):
         
         if not week:
             error = "指定された週間メニューが見つかりませんでした"
+            flash(error, "error")
             return redirect(url_for('recipe.weekly_menu'))
         
         shopping_list = load_shopping_list()
@@ -317,13 +342,16 @@ def generate_shopping_list(week_id):
                                 items_added += 1
         
         if save_shopping_list(shopping_list):
-            print(f"週間メニューから買い物リストを生成しました: {items_added}個のアイテムを追加")
+            logger.info(f"週間メニューから買い物リストを生成しました: {items_added}個のアイテムを追加")
+            flash(f"週間メニューの材料を買い物リストに追加しました ({items_added}個のアイテム)", "success")
         else:
             error = "買い物リストの保存に失敗しました"
+            flash(error, "error")
     
     except Exception as e:
-        print(f"買い物リスト生成中にエラーが発生しました: {e}")
+        logger.error(f"買い物リスト生成中にエラーが発生しました: {e}")
         error = "買い物リストの生成中にエラーが発生しました"
+        flash(error, "error")
     
     return redirect(url_for('recipe.weekly_menu'))
 
@@ -341,5 +369,5 @@ def get_recipe_json(recipe_id):
         return jsonify(recipe)
     
     except Exception as e:
-        print(f"レシピAPIでエラーが発生しました: {e}")
+        logger.error(f"レシピAPIでエラーが発生しました: {e}")
         return jsonify({'error': 'Internal server error'}), 500

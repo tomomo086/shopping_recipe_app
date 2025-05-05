@@ -89,6 +89,14 @@ def init_json_files():
         app.logger.error(f"JSONファイルの初期化中にエラーが発生しました: {e}")
         return False
 
+# app.pyに追加する部分
+# Blueprintの登録より前に追加してください
+
+# Jinja2のグローバルフィルタとしてenumerateを登録
+@app.template_global()
+def enumerate(iterable, start=0):
+    return [(i, item) for i, item in enumerate(iterable, start)]
+
 # 各Blueprintをここでインポート（循環インポートを避けるため）
 from shopping_list_routes import shopping_bp
 from recipe_routes import recipe_bp

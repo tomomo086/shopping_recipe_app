@@ -3,15 +3,17 @@ from flask_login import login_user, login_required, logout_user, current_user
 from models import User, load_shopping_list, save_shopping_list
 from config import Config
 import logging
+import builtins  # 重要: Python組み込み関数用
 
 # Blueprintの作成
 shopping_bp = Blueprint('shopping', __name__, template_folder='templates/shopping')
 logger = logging.getLogger(__name__)
 
-# テンプレートでenumerate関数を使えるようにする - 修正版
+# テンプレートでenumerate関数を使えるようにする - 完全修正版
 @shopping_bp.app_template_global()
 def enumerate(iterable, start=0):
-    return [(i, item) for i, item in __builtins__.enumerate(iterable, start)]
+    # builtinsモジュールから組み込みのenumerate関数を明示的に使用
+    return [(i, item) for i, item in builtins.enumerate(iterable, start)]
 
 # ログインページ
 @shopping_bp.route('/login', methods=['GET', 'POST'])

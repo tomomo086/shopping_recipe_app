@@ -1,8 +1,12 @@
 import os
-from dotenv import load_dotenv
 
-# .envファイルがあれば読み込む
-load_dotenv()
+# python-dotenvをオプション扱いに
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+    print("環境変数を.envファイルから読み込みました")
+except ImportError:
+    print("python-dotenvがインストールされていないため、.envファイルからの環境変数読み込みをスキップします")
 
 class Config:
     # パス設定

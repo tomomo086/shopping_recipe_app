@@ -2,17 +2,10 @@ from flask import Blueprint, render_template, request, redirect, url_for, jsonif
 from flask_login import login_required, current_user
 from models import load_recipes, save_recipes, load_menu, save_menu, load_shopping_list, save_shopping_list
 import logging
-import builtins  # 追加: Python組み込み関数用
 
 # Blueprintの作成
 recipe_bp = Blueprint('recipe', __name__, template_folder='templates/recipe')
 logger = logging.getLogger(__name__)
-
-# テンプレートでenumerate関数を使えるようにする - 追加
-@recipe_bp.app_template_global()
-def enumerate(iterable, start=0):
-    # builtinsモジュールから組み込みのenumerate関数を明示的に使用
-    return [(i, item) for i, item in builtins.enumerate(iterable, start)]
 
 # レシピ検索ページ
 @recipe_bp.route('/', methods=['GET'])
@@ -32,24 +25,12 @@ def index():
                     
                     # 材料検索 (構造をチェックしてからアクセス)
                     ingredient_match = False
-                    # 旧形式: 'ingredients'キーがある場合
-                    if 'ingredients' in recipe and isinstance(recipe['ingredients'], list):
-                        ingredient_match = any(query.lower() in ing.lower() for ing in recipe['ingredients'])
-                    # 新形式: 'main_ingredients', 'seasonings'キーがある場合
                     for ingredient_type in ['main_ingredients', 'seasonings']:
                         if ingredient_type in recipe and isinstance(recipe[ingredient_type], list):
-                            # 名前のあるdict形式の材料
-                            if all(isinstance(ing, dict) for ing in recipe[ingredient_type]):
-                                ingredient_match = ingredient_match or any(
-                                    query.lower() in ing.get('name', '').lower() 
-                                    for ing in recipe[ingredient_type]
-                                )
-                            # 文字列形式の材料
-                            elif all(isinstance(ing, str) for ing in recipe[ingredient_type]):
-                                ingredient_match = ingredient_match or any(
-                                    query.lower() in ing.lower() 
-                                    for ing in recipe[ingredient_type]
-                                )
+                            ingredient_match = ingredient_match or any(
+                                query.lower() in ing.get('name', '').lower() 
+                                for ing in recipe[ingredient_type]
+                            )
                     
                     # タグ検索
                     tag_match = False
@@ -62,15 +43,15 @@ def index():
                     logger.error(f"レシピID {recipe.get('id', 'unknown')} の検索中にエラーが発生しました: {e}")
                     continue
             
-            return render_template('index.html', recipes=filtered_recipes, query=query, error=error)
+            return render_template('recipe/index.html', recipes=filtered_recipes, query=query, error=error)
     
     except Exception as e:
         logger.error(f"レシピ検索中にエラーが発生しました: {e}")
         error = "レシピの検索中にエラーが発生しました"
         flash(error, "error")
-        return render_template('index.html', recipes=[], query=query, error=error)
+        return render_template('recipe/index.html', recipes=[], query=query, error=error)
     
-    return render_template('index.html', recipes=recipes.get('recipes', []), query='', error=error)
+    return render_template('recipe/index.html', recipes=recipes.get('recipes', []), query='', error=error)
 
 # レシピ詳細ページ
 @recipe_bp.route('/<int:recipe_id>', methods=['GET'])
@@ -92,7 +73,7 @@ def detail(recipe_id):
         flash(error, "error")
         return redirect(url_for('recipe.index'))
     
-    return render_template('detail.html', recipe=recipe, error=error)
+    return render_template('recipe/detail.html', recipe=recipe, error=error)
 
 # レシピ追加ページ
 @recipe_bp.route('/add', methods=['GET', 'POST'])
@@ -107,7 +88,7 @@ def add():
             if not title:
                 error = "レシピ名は必須です"
                 flash(error, "error")
-                return render_template('add.html', error=error)
+                return render_template('recipe/add.html', error=error)
             
             url = request.form.get('url', '')
             summary = request.form.get('summary', '')
@@ -182,7 +163,7 @@ def add():
             error = "レシピの追加中にエラーが発生しました"
             flash(error, "error")
     
-    return render_template('add.html', error=error)
+    return render_template('recipe/add.html', error=error)
 
 # レシピ削除
 @recipe_bp.route('/<int:recipe_id>/delete', methods=['POST'])
@@ -218,7 +199,7 @@ def delete_recipe(recipe_id):
         error = "レシピの削除中にエラーが発生しました"
         flash(error, "error")
     
-    return render_template('detail.html', recipe=None, error=error)
+    return render_template('recipe/detail.html', recipe=None, error=error)
 
 # 材料を買い物リストに追加
 @recipe_bp.route('/<int:recipe_id>/add_to_shopping_list', methods=['POST'])
@@ -240,39 +221,18 @@ def add_to_shopping_list(recipe_id):
         
         # 主材料を追加
         for ingredient in recipe.get('main_ingredients', []):
-            # dictの場合
-            if isinstance(ingredient, dict) and ingredient.get('name'):
-                if ingredient['name'] not in shopping_list['食品']:
-                    shopping_list['食品'].append(ingredient['name'])
-                    items_added += 1
-            # 文字列の場合 (古い形式)
-            elif isinstance(ingredient, str) and ingredient:
-                if ingredient not in shopping_list['食品']:
-                    shopping_list['食品'].append(ingredient)
-                    items_added += 1
-        
-        # 旧形式の材料を処理
-        if 'ingredients' in recipe and isinstance(recipe['ingredients'], list):
-            for ingredient in recipe['ingredients']:
-                if ingredient and ingredient not in shopping_list['食品']:
-                    shopping_list['食品'].append(ingredient)
-                    items_added += 1
+            if ingredient.get('name') and ingredient.get('name') not in shopping_list['食品']:
+                shopping_list['食品'].append(ingredient['name'])
+                items_added += 1
         
         # 調味料を追加（ユーザーの選択により追加するかどうか決定可能）
         add_seasonings = request.form.get('add_seasonings') == 'true'
         
         if add_seasonings:
             for seasoning in recipe.get('seasonings', []):
-                # dictの場合
-                if isinstance(seasoning, dict) and seasoning.get('name'):
-                    if seasoning['name'] not in shopping_list['食品']:
-                        shopping_list['食品'].append(seasoning['name'])
-                        items_added += 1
-                # 文字列の場合
-                elif isinstance(seasoning, str) and seasoning:
-                    if seasoning not in shopping_list['食品']:
-                        shopping_list['食品'].append(seasoning)
-                        items_added += 1
+                if seasoning.get('name') and seasoning.get('name') not in shopping_list['食品']:
+                    shopping_list['食品'].append(seasoning['name'])
+                    items_added += 1
         
         if save_shopping_list(shopping_list):
             logger.info(f"レシピの材料を買い物リストに追加しました: {recipe.get('title')} (ID: {recipe_id}) - {items_added}個のアイテム")
@@ -304,7 +264,7 @@ def weekly_menu():
             if not start_date:
                 error = "開始日を入力してください"
                 flash(error, "error")
-                return render_template('menu_planner.html', recipes=recipes.get('recipes', []), weeks=menu.get('weeks', []), error=error)
+                return render_template('recipe/menu_planner.html', recipes=recipes.get('recipes', []), weeks=menu.get('weeks', []), error=error)
             
             days = []
             
@@ -346,7 +306,7 @@ def weekly_menu():
         recipes = load_recipes()
         menu = load_menu()
     
-    return render_template('menu_planner.html', recipes=recipes.get('recipes', []), weeks=menu.get('weeks', []), error=error)
+    return render_template('recipe/menu_planner.html', recipes=recipes.get('recipes', []), weeks=menu.get('weeks', []), error=error)
 
 # 一週間メニューから買い物リスト生成
 @recipe_bp.route('/generate_shopping_list/<int:week_id>', methods=['POST'])
@@ -376,25 +336,10 @@ def generate_shopping_list(week_id):
                     recipe = next((r for r in recipes.get('recipes', []) if r.get('id') == recipe_id), None)
                     
                     if recipe:
-                        # 主材料を追加
                         for ingredient in recipe.get('main_ingredients', []):
-                            # dictの場合
-                            if isinstance(ingredient, dict) and ingredient.get('name'):
-                                if ingredient['name'] not in shopping_list['食品']:
-                                    shopping_list['食品'].append(ingredient['name'])
-                                    items_added += 1
-                            # 文字列の場合 (古い形式)
-                            elif isinstance(ingredient, str) and ingredient:
-                                if ingredient not in shopping_list['食品']:
-                                    shopping_list['食品'].append(ingredient)
-                                    items_added += 1
-                        
-                        # 旧形式の材料を処理
-                        if 'ingredients' in recipe and isinstance(recipe['ingredients'], list):
-                            for ingredient in recipe['ingredients']:
-                                if ingredient and ingredient not in shopping_list['食品']:
-                                    shopping_list['食品'].append(ingredient)
-                                    items_added += 1
+                            if ingredient.get('name') and ingredient.get('name') not in shopping_list['食品']:
+                                shopping_list['食品'].append(ingredient['name'])
+                                items_added += 1
         
         if save_shopping_list(shopping_list):
             logger.info(f"週間メニューから買い物リストを生成しました: {items_added}個のアイテムを追加")

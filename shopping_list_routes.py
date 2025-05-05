@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_user, login_required, logout_user, current_user
 from models import User, load_shopping_list, save_shopping_list
 from config import Config
@@ -8,11 +8,10 @@ import logging
 shopping_bp = Blueprint('shopping', __name__, template_folder='templates/shopping')
 logger = logging.getLogger(__name__)
 
-# テンプレートでenumerate関数を使えるようにする
+# テンプレートでenumerate関数を使えるようにする - 修正版
 @shopping_bp.app_template_global()
 def enumerate(iterable, start=0):
-    # シンプルな実装に修正
-    return enumerate(iterable, start)
+    return [(i, item) for i, item in __builtins__.enumerate(iterable, start)]
 
 # ログインページ
 @shopping_bp.route('/login', methods=['GET', 'POST'])
@@ -134,7 +133,7 @@ def index():
         return render_template('index.html', items=items, error=error)
     
     except Exception as e:
-        # 重大なエラーが発生した場合は、ログに記録してシンプルなエラーページを表示
+        # エラーをログに記録してリダイレクト
         logger.error(f"買い物リスト表示中に致命的なエラーが発生しました: {e}")
-        current_app.logger.error(f"買い物リスト表示中に致命的なエラーが発生しました: {e}")
-        return render_template('error.html', error=f"エラーが発生しました: {str(e)}")
+        flash(f"エラーが発生しました: {str(e)}", "error")
+        return redirect(url_for('shopping.login'))

@@ -61,7 +61,9 @@ def send_email(url):
     
     try:
         with smtplib.SMTP("smtp.gmail.com", 587) as server:
+            server.ehlo()
             server.starttls()
+            server.ehlo()
             server.login(Config.GMAIL_ADDRESS, Config.GMAIL_PASSWORD)
             server.send_message(msg)
             print(f"通知メール送信成功: {url}")

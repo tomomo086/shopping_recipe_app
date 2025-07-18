@@ -30,3 +30,4 @@ Thumbs.db
 /data/
 ngrok.log
 current_url.txt
+nohup.out

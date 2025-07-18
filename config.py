@@ -23,12 +23,14 @@ class Config:
     MENU_FILE = os.path.join(USB_PATH, "weekly_menu.json")
     
     # Flask設定
-    SECRET_KEY = os.environ.get('SECRET_KEY', '019d9cecc66e13a00f1b47b298995dbd')
+    # 重要: 本番環境では必ず環境変数 SECRET_KEY を設定してください
+    SECRET_KEY = os.environ.get('SECRET_KEY', 'your-secret-key-here')
     
     # ユーザー設定 - 環境変数またはデフォルト値を使用
+    # 重要: 本番環境では必ず環境変数 APP_USERNAME と APP_PASSWORD を設定してください
     USERS = {
-        os.environ.get('APP_USERNAME', 'kaimono'): {
-            'password': os.environ.get('APP_PASSWORD', 'kuutaro5412')
+        os.environ.get('APP_USERNAME', 'demo_user'): {
+            'password': os.environ.get('APP_PASSWORD', 'change_me_password')
         }
     }
     

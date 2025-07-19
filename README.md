@@ -10,8 +10,10 @@
 
 ### 🖼️ アプリケーション画面
 <!-- ここに実際のアプリ画面のスクリーンショットを2枚追加してください -->
-<img src="images/Gqa2GpJXAAAgFsS.jpg" alt="ログイン画面" width="33%" style="display: inline-block; margin: 10px;">
-<img src="images/Gqa2GozW4AA8mL3.jpg" alt="買い物リスト画面" width="33%" style="display: inline-block; margin: 10px;">
+<div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+  <img src="images/Gqa2GpJXAAAgFsS.jpg" alt="ログイン画面" width="33%" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+  <img src="images/Gqa2GozW4AA8mL3.jpg" alt="買い物リスト画面" width="33%" style="border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+</div>
 
 ### 🎥 動作デモ動画
 <!-- ここにXの動画リンクを追加してください -->

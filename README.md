@@ -6,6 +6,17 @@
 ![Method: VibCoding](https://img.shields.io/badge/Method-VibCoding-red.svg)
 ![Status: Portfolio](https://img.shields.io/badge/Status-Portfolio-purple.svg)
 
+## 📸 デモ・スクリーンショット
+
+### 🖼️ アプリケーション画面
+<!-- ここに実際のアプリ画面のスクリーンショットを2枚追加してください -->
+<!-- 例: ![買い物リスト画面](path/to/screenshot1.png) -->
+<!-- 例: ![レシピ管理画面](path/to/screenshot2.png) -->
+
+### 🎥 動作デモ動画
+<!-- ここにXの動画リンクを追加してください -->
+<!-- 例: [📱 アプリ動作デモ動画](https://x.com/mirai_sousiyo39/status/...) -->
+
 ## 📋 プロジェクト概要
 
 **AI駆動開発による最新技術を活用した、共働き世帯向けの買い物・献立管理システム**

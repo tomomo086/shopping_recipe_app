@@ -1,10 +1,16 @@
 # 🛒 買い物リスト＆レシピ管理アプリ
 
+![Platform: Raspberry Pi | Web](https://img.shields.io/badge/Platform-Raspberry%20Pi%20%7C%20Web-green.svg)
+![Language: Python | HTML/CSS/JS](https://img.shields.io/badge/Language-Python%20%7C%20HTML%2FCSS%2FJS-orange.svg)
+![Status: Portfolio](https://img.shields.io/badge/Status-Portfolio-purple.svg)
+
 ## 📋 プロジェクト概要
 
 **AI駆動開発による最新技術を活用した、共働き世帯向けの買い物・献立管理システム**
 
 本プロジェクトは、AIによるバイブコーディング（AI駆動による最新の開発手法）を活用し、Raspberry Pi 3B+上で動作する家庭向けWebアプリケーションです。共働き世帯の情報共有効率化と献立の悩みを解決することを目的として設計されています。
+
+> ⚠️ **注意**: これはポートフォリオ・学習目的の作品です。配布や商用利用は想定しておりません。
 
 ### 🎯 解決する課題
 - **情報共有の非効率性**: 夫婦間での買い物リストや献立の情報共有が困難

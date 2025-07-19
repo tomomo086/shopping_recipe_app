@@ -2,6 +2,7 @@
 
 ![Platform: Raspberry Pi | Web](https://img.shields.io/badge/Platform-Raspberry%20Pi%20%7C%20Web-green.svg)
 ![Language: Python | HTML/CSS/JS](https://img.shields.io/badge/Language-Python%20%7C%20HTML%2FCSS%2FJS-orange.svg)
+![AI: Grok3 | Claude4 | Cursor](https://img.shields.io/badge/AI-Grok3%20%7C%20Claude4%20%7C%20Cursor-blue.svg)
 ![Status: Portfolio](https://img.shields.io/badge/Status-Portfolio-purple.svg)
 
 ## 📋 プロジェクト概要

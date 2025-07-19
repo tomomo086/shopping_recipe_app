@@ -105,29 +105,6 @@ shopping_recipe_app/
 3. **外部アクセス** → ngrokによるトンネリング
 4. **自動化** → crontabによるスケジューリング
 
-## 🔒 セキュリティ対策
-
-### 実装済み対策
-- ✅ 環境変数による機密情報管理
-- ✅ 安全なデフォルト値の設定
-- ✅ 機密ファイルのGitignore除外
-- ✅ セキュリティ警告コメントの追加
-
-### 本番環境での必須設定
-```bash
-# 強力なSECRET_KEYの生成
-export SECRET_KEY=$(openssl rand -hex 32)
-
-# アプリケーション認証情報
-export APP_USERNAME="your_secure_username"
-export APP_PASSWORD="your_strong_password"
-
-# メール通知設定（オプション）
-export GMAIL_ADDRESS="your_email@gmail.com"
-export GMAIL_PASSWORD="your_app_password"
-export TO_ADDRESSES="email1@example.com,email2@example.com"
-```
-
 ## 📱 ユーザー体験設計
 
 ### 共働き世帯向けの配慮
@@ -196,21 +173,6 @@ python3 app.py
 - **品質保証**: AIによるコードレビューと改善提案
 - **継続的学習**: 新しいAI技術の積極的活用
 
-## 🔮 今後の拡張計画
-
-### 短期的改善
-- [ ] レシピ画像のアップロード機能
-- [ ] 栄養情報の追加と栄養バランス計算
-- [ ] 食品の賞味期限管理機能
-- [ ] 買い物履歴の分析機能
-
-### 長期的拡張
-- [ ] データベース導入（SQLite/MySQL）
-- [ ] 複数ユーザー対応
-- [ ] モバイルアプリ連携（API実装）
-- [ ] 外部レシピAPIとの連携
-- [ ] AIによる献立提案機能
-
 ## 📈 成果・効果
 
 ### 技術的成果
@@ -233,7 +195,7 @@ MIT License
 
 ---
 
-**開発者**: AI駆動開発による最新技術の実践者  
+**開発者**: tomomo086(@mirai_sousiyo39)  
 **技術**: Grok3 → Claude4 → ClaudeCode → Cursor  
 **ハードウェア**: Raspberry Pi 3B+  
 **目的**: 共働き世帯の生活効率化

@@ -141,30 +141,6 @@ shopping_recipe_app/
 
 ## 🚀 デプロイメント
 
-### Raspberry Pi 3B+での運用
-```bash
-# 必要なライブラリをインストール
-sudo apt-get update
-sudo apt-get install -y python3-pip git
-
-# Flaskと必要なライブラリをインストール
-pip3 install flask flask-login python-dotenv
-
-# プロジェクトをクローン
-git clone https://github.com/[ユーザー名]/shopping_recipe_app.git
-cd shopping_recipe_app
-
-# 環境変数設定
-cp .env.example .env
-nano .env  # 必要に応じて編集
-
-# データディレクトリを作成
-mkdir -p data
-
-# アプリ実行
-python3 app.py
-```
-
 ### 自動化設定（crontab）
 ```bash
 # 7:00にアプリ、ngrok、メール送信を起動
